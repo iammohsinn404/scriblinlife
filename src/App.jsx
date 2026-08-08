@@ -2,16 +2,18 @@ import React from 'react';
 import "./App.css"
 import { Stage, Layer, Line, Text, Rect } from 'react-konva';
 
-const messages = []
+const messages = ["you don't have time", "what are you doing here?", "you can't stay any longer", "the meaning of life is:", "you already know it"]
 
 
 const App = () => {
   const [tool, setTool] = React.useState('pen');
   const [lines, setLines] = React.useState([]);
   const [revealed, setRevealed] = React.useState(false);
+  const [msgNumber, setMsgNumber] = React.useState(0);
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
   const moveCount = React.useRef(0);
+
   
 
 
@@ -31,7 +33,7 @@ const App = () => {
     }
     const percent = transparentCount / totalSampled;
     console.log(percent)
-    if (percent > 0.15) setRevealed(true);
+    if (percent > 0.10) setRevealed(true);
   }
 
   const handleMouseDown = (e) => {
@@ -55,6 +57,12 @@ const App = () => {
     checkShown();
   };
 
+  const nextMessage = () => {
+    setLines([]);
+    setRevealed(false);
+    setMsgNumber((i) => (i + 1) % messages.length);
+  }
+
   return (
     <>
     <Stage 
@@ -65,11 +73,11 @@ const App = () => {
       onMouseUp={handleMouseUp}
     >
      <Layer>
-      <Text text="you have time!" x={0} y={300} width={window.innerWidth} align="center" fontSize={40} fontFamily="Beth Ellen"  fill="black"/>
+      <Text text={messages[msgNumber]} x={0} y={300} width={width} align="center" fontSize={40} fontFamily="Beth Ellen"  fill="black"/>
      </Layer>
     
     <Layer className="containerScribble" ref={coatLayer}>
-      <Rect x={0} y={0} width={window.innerWidth} height={window.innerHeight} fill="gray" />
+      <Rect x={0} y={0} width={width} height={height} fill="gray" />
          {lines.map((points, i) => (
           <Line
             key={i}
@@ -84,7 +92,7 @@ const App = () => {
     </Layer>
     </Stage>
 
-   {revealed && <button>→</button>}
+   {revealed && <button onClick={nextMessage}>→</button>}
 </>
   );
 };
