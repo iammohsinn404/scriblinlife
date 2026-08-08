@@ -1,31 +1,34 @@
 import React from 'react';
-import { Stage, Layer, Line, Text } from 'react-konva';
+import { Stage, Layer, Line, Text, Rect } from 'react-konva';
+
+const messages = []
+
 
 const App = () => {
   const [tool, setTool] = React.useState('pen');
   const [lines, setLines] = React.useState([]);
   const isDrawing = React.useRef(false);
+  const coatLayer = React.useRef(null);
+  const moveCount = React.useRef(0);
+
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
-    setLines([...lines, { tool, points: [pos.x, pos.y] }]);
+    setLines((prev) => [...prev,  [pos.x, pos.y]]);
   };
 
   const handleMouseMove = (e) => {
-    // no drawing - skipping
-    if (!isDrawing.current) {
-      return;
-    }
-    const stage = e.target.getStage();
-    const point = stage.getPointerPosition();
-    let lastLine = lines[lines.length - 1];
-    // add point
-    lastLine.points = lastLine.points.concat([point.x, point.y]);
-
-    // replace last
-    lines.splice(lines.length - 1, 1, lastLine);
-    setLines(lines.concat());
+      if (!isDrawing.current) return;
+      const pos = e.target.getStage().getPointerPosition();
+      setLines((prev) => {
+        const newLines = [...prev];
+        newLines[newLines.length - 1] = newLines[newLines.length - 1].concat([pos.x, pos.y])
+        return newLines;
+      });
   };
 
   const handleMouseUp = () => {
@@ -33,45 +36,32 @@ const App = () => {
   };
 
   return (
-    <div>
-      <select
-        value={tool}
-        onChange={(e) => {
-          setTool(e.target.value);
-        }}
-      >
-        <option value="pen">Pen</option>
-        <option value="eraser">Eraser</option>
-      </select>
-      <Stage
-        width={window.innerWidth}
-        height={window.innerHeight}
-        onMouseDown={handleMouseDown}
-        onMousemove={handleMouseMove}
-        onMouseup={handleMouseUp}
-        onTouchStart={handleMouseDown}
-        onTouchMove={handleMouseMove}
-        onTouchEnd={handleMouseUp}
-      >
-        <Layer>
-          <Text text="Just start drawing" x={5} y={30} />
-          {lines.map((line, i) => (
-            <Line
-              key={i}
-              points={line.points}
-              stroke="#df4b26"
-              strokeWidth={5}
-              tension={0.5}
-              lineCap="round"
-              lineJoin="round"
-              globalCompositeOperation={
-                line.tool === 'eraser' ? 'destination-out' : 'source-over'
-              }
-            />
-          ))}
-        </Layer>
-      </Stage>
-    </div>
+    <Stage 
+      width={width}
+      height={height}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
+     <Layer>
+      <Text text="something" x={0} y={300} width={window.innerWidth} align="center" fontSize={40}/>
+     </Layer>
+
+    <Layer>
+      <Rect x={0} y={0} width={window.innerWidth} height={window.innerHeight} fill="gray" />
+         {lines.map((points, i) => (
+          <Line
+            key={i}
+            points={points}
+            stroke="black"
+            strokeWidth={5}
+            lineCap="round"
+            lineJoin="round"
+            globalCompositeOperation="destination-out"
+          />
+        ))}
+    </Layer>
+    </Stage>
   );
 };
 
