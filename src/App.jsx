@@ -8,13 +8,31 @@ const messages = []
 const App = () => {
   const [tool, setTool] = React.useState('pen');
   const [lines, setLines] = React.useState([]);
+  const [revealed, setRevealed] = React.useState(false);
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
   const moveCount = React.useRef(0);
+  
 
 
   const width = window.innerWidth;
   const height = window.innerHeight;
+
+  const checkShown = () => {
+    const layer = coatLayer.current;
+    if (!layer) return;
+    const ctx = layer.getContext();
+    const { data } = ctx.getImageData(0, 0, width, height);
+    let transparentCount = 0;
+    let totalSampled = 0;
+    for (let i = 3; i < data.length; i += 4 * 20) {
+      totalSampled++
+      if (data[i] == 0) transparentCount++;
+    }
+    const percent = transparentCount / totalSampled;
+    console.log(percent)
+    if (percent > 0.15) setRevealed(true);
+  }
 
   const handleMouseDown = (e) => {
     isDrawing.current = true;
@@ -34,9 +52,11 @@ const App = () => {
 
   const handleMouseUp = () => {
     isDrawing.current = false;
+    checkShown();
   };
 
   return (
+    <>
     <Stage 
       width={width}
       height={height}
@@ -45,11 +65,11 @@ const App = () => {
       onMouseUp={handleMouseUp}
     >
      <Layer>
-      <Text text="something" x={0} y={300} width={window.innerWidth} align="center" fontSize={40} fontFamily="Beth Ellen"  fill="white"/>
+      <Text text="you have time!" x={0} y={300} width={window.innerWidth} align="center" fontSize={40} fontFamily="Beth Ellen"  fill="black"/>
      </Layer>
     
-    <Layer className="containerScribble">
-      <Rect x={0} y={0} width={window.innerWidth} height={window.innerHeight} fill="black" />
+    <Layer className="containerScribble" ref={coatLayer}>
+      <Rect x={0} y={0} width={window.innerWidth} height={window.innerHeight} fill="white" />
          {lines.map((points, i) => (
           <Line
             key={i}
@@ -63,6 +83,9 @@ const App = () => {
         ))}
     </Layer>
     </Stage>
+
+   {revealed && <button>→</button>}
+</>
   );
 };
 

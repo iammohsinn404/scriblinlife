@@ -5,7 +5,21 @@
     font-family: 'Beth Ellen', cursive;
     margin: 0;
     padding: 0;
-    background-color: black;
+   
+    background-color: white;
 }
 
+ body {
+     overflow: hidden;
+ }
+
+
+ button {
+    position: fixed;
+    bottom: 40;
+    right: 40;
+    font-size: 28;
+    padding: '10px 16px';
+    cursor: 'pointer';
+ }
 
