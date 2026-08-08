@@ -2,11 +2,10 @@ import React from 'react';
 import "./App.css"
 import { Stage, Layer, Line, Text, Rect } from 'react-konva';
 
-const messages = ["you don't have time", "what are you doing here?", "you can't stay any longer", "the meaning of life is:", "you already know it", "it is being kind and worshipping God!"]
+const messages = ["you don't have time", "what are you doing here?", "you can't stay any longer", "the meaning of life is:", "you already know it", "be kind fr", "give all the credit to God", "you are nothing yet you are everything"]
 
 
 const App = () => {
-  const [tool, setTool] = React.useState('pen');
   const [lines, setLines] = React.useState([]);
   const [revealed, setRevealed] = React.useState(false);
   const [msgNumber, setMsgNumber] = React.useState(0);
