@@ -15,8 +15,8 @@ const App = () => {
   
 
 
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+  const width = 1500;
+  const height = 600;
 
   const checkShown = () => {
     const layer = coatLayer.current;
@@ -69,13 +69,13 @@ const App = () => {
      </Layer>
     
     <Layer className="containerScribble" ref={coatLayer}>
-      <Rect x={0} y={0} width={window.innerWidth} height={window.innerHeight} fill="white" />
+      <Rect x={0} y={0} width={window.innerWidth} height={window.innerHeight} fill="gray" />
          {lines.map((points, i) => (
           <Line
             key={i}
             points={points}
             stroke="white"
-            strokeWidth={5}
+            strokeWidth={10}
             lineCap="round"
             lineJoin="round"
             globalCompositeOperation="destination-out"
