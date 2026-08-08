@@ -2,7 +2,7 @@ import React from 'react';
 import "./App.css"
 import { Stage, Layer, Line, Text, Rect } from 'react-konva';
 
-const messages = ["you don't have time", "what are you doing here?", "you can't stay any longer", "the meaning of life is:", "you already know it"]
+const messages = ["you don't have time", "what are you doing here?", "you can't stay any longer", "the meaning of life is:", "you already know it", "it is being kind and worshipping God!"]
 
 
 const App = () => {
@@ -73,11 +73,11 @@ const App = () => {
       onMouseUp={handleMouseUp}
     >
      <Layer>
-      <Text text={messages[msgNumber]} x={0} y={300} width={width} align="center" fontSize={40} fontFamily="Beth Ellen"  fill="black"/>
+      <Text text={messages[msgNumber]} x={0} y={300} width={width} align="center" fontSize={40} fontFamily="Beth Ellen"  fill="white"/>
      </Layer>
     
     <Layer className="containerScribble" ref={coatLayer}>
-      <Rect x={0} y={0} width={width} height={height} fill="gray" />
+      <Rect x={0} y={0} width={width} height={height} fill="black" />
          {lines.map((points, i) => (
           <Line
             key={i}
