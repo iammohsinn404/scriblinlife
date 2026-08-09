@@ -31,8 +31,12 @@ const App = () => {
 
   const moonRef = React.useRef(null);
 
+  const FIREFLIES_NUM = 20;
+  const fireflyRef = React.useRef(null);
+  const fireflyNodes = React.useRef([]);
+
   const width = 1500;
-  const height = 600;
+  const height = 700;
 
   const checkShown = () => {
     const layer = coatLayer.current;
@@ -52,6 +56,7 @@ const App = () => {
     }
   };
 
+  // scribbling sound
   React.useEffect(() => {
     const noise = new Tone.Noise("white");
     const filter = new Tone.Filter(400, "highpass");
@@ -71,6 +76,7 @@ const App = () => {
     };
   }, []);
 
+  // moon animation
   React.useEffect(() => {
     const animation = new Konva.Animation((frame) => {
       if (!moonRef.current) return;
@@ -80,6 +86,29 @@ const App = () => {
       moonRef.current.shadowBlur(glow);
       moonRef.current.opacity(0.7 + Math.sin(frame.time / 700) * 0.3);
     }, moonRef.current?.getLayer());
+    animation.start();
+    return () => animation.stop();
+  }, []);
+
+  // fireflies animation
+  React.useEffect(() => {
+    const animation = new Konva.Animation((frame) => {
+      fireflyNodes.current.forEach((node, i) => {
+        if (!node) return;
+        const t = frame.time / 2000 + i * 5; // offset each firefly so they don't move in sync
+        const x =
+          width / 2 +
+          Math.sin(t * 0.3) * (width / 2.5) +
+          Math.sin(t * 1.7) * 40;
+        const y =
+          height / 2 +
+          Math.cos(t * 0.4) * (height / 2.5) +
+          Math.cos(t * 2.1) * 30;
+        node.x(x);
+        node.y(y);
+        node.opacity(0.4 + Math.abs(Math.sin(t * 2)) * 0.6);
+      });
+    }, fireflyRef.current);
     animation.start();
     return () => animation.stop();
   }, []);
@@ -187,6 +216,20 @@ const App = () => {
             shadowBlur={20}
             shadowOpacity={1}
           />
+        </Layer>
+
+        <Layer>
+          {Array.from({length: FIREFLIES_NUM}).map((_, i) => (
+            <Circle 
+              key={i}
+              ref={(node) => (fireflyNodes.current[i] = node)}
+              radius={2}
+              fill="#fddba3"
+              shadowColor="#fddba3"
+              shadowBlur={8}
+              shadowOpacity={1}
+              />
+          ))}
         </Layer>
       </Stage>
 
