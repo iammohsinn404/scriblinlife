@@ -75,6 +75,7 @@ const App = () => {
       await Tone.loaded();
       noiseRef.current.start();
       musicRef.current.play();
+      musicRef.current.volume = 0.3;
       soundStarted.current = true;
     }
 
