@@ -1,24 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap');
-
+@import url("https://fonts.googleapis.com/css2?family=Beth+Ellen&display=swap");
 
 * {
-    font-family: 'Beth Ellen', cursive;
-    margin: 0;
-    padding: 0;
-    background-color: black;
+  font-family: "Beth Ellen", cursive;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: white;
 }
 
+.next {
+  position: fixed;
+  right: 40px;
+  top: 90%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  color: white;
+  border-style: none;
+  font-size: 48px;
+}
 
+.splash-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
+.splash-screen h1 {
+    font-size: 68px;
+    color: whitesmoke;
+    margin: -5px;
+}
 
- button {
-    position: fixed;
-    right: 40px;
-    top: 90%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    color: white;
-    border-style: none;
-    font-size: 48px; 
- }
+.splash-screen p {
+    font-size: 25px;
+    color: whitesmoke;
+    margin-bottom: 50px;
+}
 
+.splash-screen button {
+    border: 1px solid whitesmoke;
+    padding: 10px 15px 10px 15px; 
+    font-size: 20px;
+    border-radius: 16px;
+}

@@ -16,6 +16,7 @@ const messages = [
 ];
 
 const App = () => {
+  const [started, setStarted] = React.useState(false);
   const [lines, setLines] = React.useState([]);
   const [revealed, setRevealed] = React.useState(false);
   const [msgNumber, setMsgNumber] = React.useState(0);
@@ -156,6 +157,16 @@ const App = () => {
     setMsgNumber((i) => (i + 1) % messages.length);
   };
 
+  if (!started){
+    return(
+      <div className="splash-screen" >
+        <h1>scriblinlife</h1>
+        <p>scribble, keep scribblin.</p>
+        <button className="start" onClick={() => setStarted(true)}>start game</button>
+        <div className="instructions"></div>
+      </div>
+    )
+  }
   return (
     <>
       <audio ref={musicRef} src="/Relent.mp3" loop />
@@ -233,7 +244,7 @@ const App = () => {
         </Layer>
       </Stage>
 
-      {revealed && <button onClick={nextMessage}>→</button>}
+      {revealed && <button className="next" onClick={nextMessage}>→</button>}
     </>
   );
 };
