@@ -67,31 +67,14 @@ const App = () => {
   }, []);
 
 
-  React.useEffect(() => {
-      const music = new Tone.Player({
-        url: '/test.mp3',
-        loop: true,
-        autostart: false, 
-        fadeIn: 1,
-        onLoad: () => {
-          music.loaded = true;
-        }
-      }).toDestination();
-
-       music.volume.value = -18;
-       musicRef.current = music;
-
-       return () => {
-        music.dispose();
-       };
-  }, []);
+ 
   
   const handleMouseDown = async (e) => {
     if (!soundStarted.current) {
       await Tone.start();
       await Tone.loaded();
       noiseRef.current.start();
-      musicRef.current.start();
+      musicRef.current.play();
       soundStarted.current = true;
     }
 
@@ -130,6 +113,7 @@ const App = () => {
 
   return (
     <>
+    <audio ref={musicRef} src="/Relent.mp3" loop/>   
     <Stage 
       width={width}
       height={height}
