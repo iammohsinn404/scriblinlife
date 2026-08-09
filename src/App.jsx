@@ -197,8 +197,8 @@ const App = () => {
         <Layer>
           <Circle
             ref={moonRef}
-            x={120}
-            y={100}
+            x={140}
+            y={160}
             radius={50}
             fillRadialGradientStartPoint={{ x: -15, y: -15 }}
             fillRadialGradientStartRadius={0}
@@ -224,7 +224,7 @@ const App = () => {
               key={i}
               ref={(node) => (fireflyNodes.current[i] = node)}
               radius={2}
-              fill="#fddba3"
+              fill="#fddba4"
               shadowColor="#fddba3"
               shadowBlur={8}
               shadowOpacity={1}
