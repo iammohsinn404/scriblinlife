@@ -1,6 +1,7 @@
 import React from 'react';
 import "./App.css"
 import { Stage, Layer, Line, Text, Rect } from 'react-konva';
+import * as Tone from 'tone';
 
 const messages = ["you don't have time", "what are you doing here?", "you can't stay any longer", "the meaning of life is:", "you already know it", "be kind fr", "give all the credit to God", "you are nothing yet you are everything"]
 
@@ -12,6 +13,11 @@ const App = () => {
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
   const moveCount = React.useRef(0);
+
+  const noiseRef = React.useRef(null);
+  const filterRef = React.useRef(null);;
+  const synthRef = React.useRef(null);
+  const soundStarted = React.useRef(null);
 
   
 
@@ -32,13 +38,43 @@ const App = () => {
     }
     const percent = transparentCount / totalSampled;
     console.log(percent)
-    if (percent > 0.10) setRevealed(true);
+    if (percent > 0.10)  {
+      setRevealed(true);
+    };
+
   }
 
+  React.useEffect(() => {
+    const noise = new Tone.Noise('white');
+    const filter = new Tone.Filter(400, 'highpass');
+    noise.connect(filter);
+    filter.toDestination();
+    noise.volume.value = -Infinity; // 0%
+
+    const synth = new Tone.Synth().toDestination();
+    noiseRef.current = noise;
+    filterRef.current = filter;
+    synthRef.current = synth;
+
+    return ()  => {
+      noise.dispose();
+      filter.dispose();
+      synth.dispose();
+    };
+
+  }, []);
+  
   const handleMouseDown = (e) => {
+    if (!soundStarted.current) {
+      Tone.start();
+      noiseRef.current.start();
+      soundStarted.current = true;
+    }
+
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
     setLines((prev) => [...prev,  [pos.x, pos.y]]);
+    
   };
 
   const handleMouseMove = (e) => {
@@ -49,10 +85,15 @@ const App = () => {
         newLines[newLines.length - 1] = newLines[newLines.length - 1].concat([pos.x, pos.y])
         return newLines;
       });
+      const freq = 300 + Math.random() * 800;
+      filterRef.current.frequency.rampTo(freq, 0.03);
+      noiseRef.current.volume.rampTo(-25, 0.05);
+
   };
 
   const handleMouseUp = () => {
     isDrawing.current = false;
+    noiseRef.current.volume.rampTo(-Infinity, 0.1);
     checkShown();
   };
 
@@ -61,6 +102,7 @@ const App = () => {
     setRevealed(false);
     setMsgNumber((i) => (i + 1) % messages.length);
   }
+
 
   return (
     <>
