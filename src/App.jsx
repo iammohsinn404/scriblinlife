@@ -18,12 +18,14 @@ const App = () => {
   const filterRef = React.useRef(null);;
   const synthRef = React.useRef(null);
   const soundStarted = React.useRef(null);
-
+  const musicRef = React.useRef(null)
   
 
 
   const width = 1500;
   const height = 600;
+ 
+  
 
   const checkShown = () => {
     const layer = coatLayer.current;
@@ -63,11 +65,33 @@ const App = () => {
     };
 
   }, []);
+
+
+  React.useEffect(() => {
+      const music = new Tone.Player({
+        url: '/test.mp3',
+        loop: true,
+        autostart: false, 
+        fadeIn: 1,
+        onLoad: () => {
+          music.loaded = true;
+        }
+      }).toDestination();
+
+       music.volume.value = -18;
+       musicRef.current = music;
+
+       return () => {
+        music.dispose();
+       };
+  }, []);
   
-  const handleMouseDown = (e) => {
+  const handleMouseDown = async (e) => {
     if (!soundStarted.current) {
-      Tone.start();
+      await Tone.start();
+      await Tone.loaded();
       noiseRef.current.start();
+      musicRef.current.start();
       soundStarted.current = true;
     }
 
