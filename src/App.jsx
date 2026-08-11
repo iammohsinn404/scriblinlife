@@ -4,7 +4,7 @@ import { Stage, Layer, Line, Text, Rect, Circle } from "react-konva";
 import Konva from "konva";
 import * as Tone from "tone";
 
-const messages = [
+const ogScriblinLifeMessages = [
   "you don't have time",
   "what are you doing here?",
   "you can't stay any longer",
@@ -15,14 +15,27 @@ const messages = [
   "you are nothing yet you are everything",
 ];
 
+const exampleMessages = [
+  "random message 1", 
+  "random message 2",
+  "random message 3"
+]
+
+const messageSets = {
+  ogScriblinLifeMessages: ogScriblinLifeMessages,
+  exampleMessages: exampleMessages,
+}
+
 const App = () => {
   const [started, setStarted] = React.useState(false);
   const [lines, setLines] = React.useState([]);
   const [revealed, setRevealed] = React.useState(false);
   const [msgNumber, setMsgNumber] = React.useState(0);
+  const [selectedMessages, setSelectedMessages] = React.useState(ogScriblinLifeMessages);
+  const [selectedSetName, setSelectedSetName] = React.useState(ogScriblinLifeMessages)
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
-  const moveCount = React.useRef(0);
+ 
 
   const noiseRef = React.useRef(null);
   const filterRef = React.useRef(null);
@@ -30,11 +43,13 @@ const App = () => {
   const soundStarted = React.useRef(null);
   const musicRef = React.useRef(null);
 
+
   const moonRef = React.useRef(null);
 
   const FIREFLIES_NUM = 20;
   const fireflyRef = React.useRef(null);
   const fireflyNodes = React.useRef([]);
+
 
   const width = 1500;
   const height = 700;
@@ -60,7 +75,7 @@ const App = () => {
   // scribbling sound
   React.useEffect(() => {
     const noise = new Tone.Noise("white");
-    const filter = new Tone.Filter(400, "highpass");
+    const filter = new Tone.Filter(3500, "highpass");
     noise.connect(filter);
     filter.toDestination();
     noise.volume.value = -Infinity; // 0%
@@ -122,6 +137,7 @@ const App = () => {
       musicRef.current.play();
       musicRef.current.volume = 0.5;
       soundStarted.current = true;
+
     }
 
     isDrawing.current = true;
@@ -142,7 +158,7 @@ const App = () => {
     });
     const freq = 300 + Math.random() * 800;
     filterRef.current.frequency.rampTo(freq, 0.03);
-    noiseRef.current.volume.rampTo(-25, 0.05);
+    noiseRef.current.volume.rampTo(-30, 0.3);
   };
 
   const handleMouseUp = () => {
@@ -154,7 +170,7 @@ const App = () => {
   const nextMessage = () => {
     setLines([]);
     setRevealed(false);
-    setMsgNumber((i) => (i + 1) % messages.length);
+    setMsgNumber((i) => (i + 1) % selectedMessages.length);
   };
 
   if (!started){
@@ -170,6 +186,25 @@ const App = () => {
   return (
     <>
       <audio ref={musicRef} src="/Relent.mp3" loop />
+
+      <select 
+        value={selectedMessages} 
+        onChange = {(e) => {
+          setSelectedSetName(e.target.value);
+          setSelectedMessages(messageSets[e.target.value]);
+          setMsgNumber(0);
+          setLines([]);
+          setRevealed(false);
+        }}
+        >
+          {Object.keys(messageSets).map((name) => (
+            <option key={name} value={name}>
+              {name}
+            </option>
+          ))}
+        
+        </select>
+
       <Stage
         width={width}
         height={height}
@@ -179,7 +214,7 @@ const App = () => {
       >
         <Layer>
           <Text
-            text={messages[msgNumber]}
+            text={selectedMessages[msgNumber]}
             x={0}
             y={300}
             width={width}
