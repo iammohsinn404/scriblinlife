@@ -220,7 +220,7 @@ const App = () => {
             width={width}
             align="center"
             fontSize={40}
-            fontFamily="Beth Ellen"
+            fontFamily="Mansalva"
             fill="white"
           />
         </Layer>
