@@ -244,9 +244,9 @@ const App = () => {
         <Layer>
           <Circle
             ref={moonRef}
-            x={140}
-            y={160}
-            radius={50}
+            x={100}
+            y={50}
+            radius={30}
             fillRadialGradientStartPoint={{ x: -15, y: -15 }}
             fillRadialGradientStartRadius={0}
             fillRadialGradientEndPoint={{ x: 0, y: 0 }}
@@ -255,9 +255,9 @@ const App = () => {
               0,
               "#fbfaf7",
               0.5,
-              "#e1dfd9",
+              "#c1bcaed8",
               1,
-              "#b3b0a9",
+              "#ffffff",
             ]}
             shadowColor="#f5f3e7"
             shadowBlur={20}
