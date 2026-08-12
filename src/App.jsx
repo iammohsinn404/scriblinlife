@@ -51,8 +51,8 @@ const App = () => {
   const fireflyNodes = React.useRef([]);
 
 
-  const width = 1500;
-  const height = 700;
+  const width = 1520;
+  const height = 600;
 
   const checkShown = () => {
     const layer = coatLayer.current;
@@ -222,6 +222,7 @@ const App = () => {
             fontSize={60}
             fontFamily="Mansalva"
             fill="white"
+            top="-50px"
           />
         </Layer>
 

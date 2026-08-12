@@ -46,3 +46,18 @@
     font-size: 20px;
     border-radius: 16px;
 }
+
+select {
+  font-size: 10px;
+  border-radius: 5%;
+  border: 10px solid white;
+  background-color: white;
+  color: black;
+  margin: 10px;
+}
+
+option {
+  color: black;
+  border-radius: 5%;
+  background-color: white;
+}
