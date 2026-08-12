@@ -219,7 +219,7 @@ const App = () => {
             y={300}
             width={width}
             align="center"
-            fontSize={40}
+            fontSize={60}
             fontFamily="Mansalva"
             fill="white"
           />
