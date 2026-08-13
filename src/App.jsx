@@ -21,9 +21,25 @@ const exampleMessages = [
   "random message 3"
 ]
 
+const emotionalMesaages = [
+  "Wanna listen My 'Dard'",
+  "Soo, nothing is to cry",
+  "But, sad like i remember those days",
+  "the little child (ME)",
+  "if he falls down",
+  "others comes to pick",
+  "But, now the people wanna see That little",
+  "to fall!"
+  "i donno what is written in my 'fate'",
+  "But, i always pray",
+  "that everyone could have the Best Fate"
+  "Thank You... _iammohsinn404_"
+]
+
 const messageSets = {
   ogScriblinLifeMessages: ogScriblinLifeMessages,
   exampleMessages: exampleMessages,
+  emotionalMessages: emotionalMessages,
 }
 
 const App = () => {
