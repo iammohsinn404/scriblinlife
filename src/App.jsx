@@ -32,7 +32,7 @@ const emotionalMesaages = [
   "to fall!"
   "i donno what is written in my 'fate'",
   "But, i always pray",
-  "that everyone could have the Best Fate"
+  "that everyone could have the Best Fate",
   "Thank You... _iammohsinn404_"
 ]
 
