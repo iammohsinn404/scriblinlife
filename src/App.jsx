@@ -29,17 +29,17 @@ const emotionalMesaages = [
   "if he falls down",
   "others comes to pick",
   "But, now the people wanna see That little",
-  "to fall!"
+  "to fall!",
   "i donno what is written in my 'fate'",
   "But, i always pray",
   "that everyone could have the Best Fate",
-  "Thank You... _iammohsinn404_"
+  "Thank You... _iammohsinn404_",
 ]
 
 const messageSets = {
   ogScriblinLifeMessages: ogScriblinLifeMessages,
   exampleMessages: exampleMessages,
-  emotionalMessages: emotionalMessages,
+  emotionalMesaages: emotionalMesaages,
 }
 
 const App = () => {
