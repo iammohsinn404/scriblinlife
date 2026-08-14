@@ -37,9 +37,8 @@ const emotionalMesaages = [
 ]
 
 const messageSets = {
-  ogScriblinLifeMessages: ogScriblinLifeMessages,
-  exampleMessages: exampleMessages,
-  emotionalMesaages: emotionalMesaages,
+  "ogScriblinLifeMessages by somebodyouknow": ogScriblinLifeMessages,
+  "emotionalMesaages by _iammohsinn404_": emotionalMesaages
 }
 
 const App = () => {
