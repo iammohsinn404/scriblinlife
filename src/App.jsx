@@ -42,7 +42,7 @@ const App = () => {
   const [revealed, setRevealed] = React.useState(false);
   const [msgNumber, setMsgNumber] = React.useState(0);
   const [selectedMessages, setSelectedMessages] = React.useState(ogScriblinLifeMessages);
-  const [selectedSetName, setSelectedSetName] = React.useState(ogScriblinLifeMessages);
+  const [selectedSetName, setSelectedSetName] = React.useState("ogScriblinLifeMessages by somebodyouknow");
 
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
@@ -209,7 +209,7 @@ const App = () => {
       <audio ref={musicRef} src="/Relent.mp3" loop />
 
       <select 
-        value={selectedMessages} 
+        value={selectedSetName} 
         onChange = {(e) => {
           setSelectedSetName(e.target.value);
           setSelectedMessages(messageSets[e.target.value]);
