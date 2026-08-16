@@ -155,6 +155,7 @@ const App = () => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
     setLines((prev) => [...prev, [pos.x, pos.y]]);
+    if (!pos) return;
 
 
     clearTimeout(drawTimeoutRef.current);
@@ -168,6 +169,7 @@ const App = () => {
   const handleMouseMove = (e) => {
     if (!isDrawing.current) return;
     const pos = e.target.getStage().getPointerPosition();
+    if (!pos) return;
     setLines((prev) => {
       const newLines = [...prev];
       newLines[newLines.length - 1] = newLines[newLines.length - 1].concat([
