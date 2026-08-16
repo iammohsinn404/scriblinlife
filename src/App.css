@@ -6,6 +6,7 @@
   padding: 0;
   background-color: black;
   color: white;
+    cursor: url("eraser-cursor.png") 16 43, auto;
 }
 
 .next {

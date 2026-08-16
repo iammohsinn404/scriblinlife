@@ -15,11 +15,6 @@ const ogScriblinLifeMessages = [
   "you are nothing yet you are everything",
 ];
 
-const exampleMessages = [
-  "random message 1", 
-  "random message 2",
-  "random message 3"
-]
 
 const emotionalMesaages = [
   "Wanna listen My 'Dard'",
@@ -47,9 +42,11 @@ const App = () => {
   const [revealed, setRevealed] = React.useState(false);
   const [msgNumber, setMsgNumber] = React.useState(0);
   const [selectedMessages, setSelectedMessages] = React.useState(ogScriblinLifeMessages);
-  const [selectedSetName, setSelectedSetName] = React.useState(ogScriblinLifeMessages)
+  const [selectedSetName, setSelectedSetName] = React.useState(ogScriblinLifeMessages);
+
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
+  const drawTimeoutRef = React.useRef(null);
  
 
   const noiseRef = React.useRef(null);
@@ -158,6 +155,14 @@ const App = () => {
     isDrawing.current = true;
     const pos = e.target.getStage().getPointerPosition();
     setLines((prev) => [...prev, [pos.x, pos.y]]);
+
+
+    clearTimeout(drawTimeoutRef.current);
+    drawTimeoutRef.current = setTimeout(() => {
+      isDrawing.current = false;
+      noiseRef.current.volume.rampTo(-Infinity, 0.5);
+      checkShown();
+    }, 3000)
   };
 
   const handleMouseMove = (e) => {
@@ -178,6 +183,7 @@ const App = () => {
 
   const handleMouseUp = () => {
     isDrawing.current = false;
+    clearTimeout(drawTimeoutRef.current);
     noiseRef.current.volume.rampTo(-Infinity, 0.1);
     checkShown();
   };
@@ -248,7 +254,7 @@ const App = () => {
               key={i}
               points={points}
               stroke="white"
-              strokeWidth={10}
+              strokeWidth={15}
               lineCap="round"
               lineJoin="round"
               globalCompositeOperation="destination-out"
