@@ -80,7 +80,9 @@ const App = () => {
     const layer = coatLayer.current;
     if (!layer) return;
     const ctx = layer.getContext();
-    const { data } = ctx.getImageData(0, 0, stageSize.width, stageSize.height);
+    const width = ctx.canvas.width;
+    const height = ctx.canvas.height;
+    const { data } = ctx.getImageData(0, 0, width, height);
     let transparentCount = 0;
     let totalSampled = 0;
     for (let i = 3; i < data.length; i += 4 * 20) {
@@ -150,7 +152,7 @@ const App = () => {
     }, fireflyRef.current);
     animation.start();
     return () => animation.stop();
-  }, []);
+  }, [stageSize]);
 
   React.useEffect(() => {
     const updateSize = () => {
