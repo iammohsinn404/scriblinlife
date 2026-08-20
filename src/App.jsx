@@ -37,12 +37,23 @@ const messageSets = {
 }
 
 const App = () => {
+
+   const START_WIDTH = 1520;
+  const START_HEIGHT = 600;
+
   const [started, setStarted] = React.useState(false);
   const [lines, setLines] = React.useState([]);
   const [revealed, setRevealed] = React.useState(false);
   const [msgNumber, setMsgNumber] = React.useState(0);
   const [selectedMessages, setSelectedMessages] = React.useState(ogScriblinLifeMessages);
   const [selectedSetName, setSelectedSetName] = React.useState("ogScriblinLifeMessages by somebodyouknow");
+  const [stageSize, setStageSize] = React.useState({
+
+    width: START_WIDTH,
+    height: START_HEIGHT,
+    scale: 1,
+
+  })
 
   const isDrawing = React.useRef(false);
   const coatLayer = React.useRef(null);
@@ -63,14 +74,13 @@ const App = () => {
   const fireflyNodes = React.useRef([]);
 
 
-  const width = 1520;
-  const height = 600;
+
 
   const checkShown = () => {
     const layer = coatLayer.current;
     if (!layer) return;
     const ctx = layer.getContext();
-    const { data } = ctx.getImageData(0, 0, width, height);
+    const { data } = ctx.getImageData(0, 0, stageSize.width, stageSize.height);
     let transparentCount = 0;
     let totalSampled = 0;
     for (let i = 3; i < data.length; i += 4 * 20) {
@@ -81,6 +91,7 @@ const App = () => {
     console.log(percent);
     if (percent > 0.1) {
       setRevealed(true);
+      console.log("revealed")
     }
   };
 
@@ -125,12 +136,12 @@ const App = () => {
         if (!node) return;
         const t = frame.time / 2000 + i * 5; // offset each firefly so they don't move in sync
         const x =
-          width / 2 +
-          Math.sin(t * 0.3) * (width / 2.5) +
+          stageSize.width / 2 +
+          Math.sin(t * 0.3) * (stageSize.width / 2.5) +
           Math.sin(t * 1.7) * 40;
         const y =
-          height / 2 +
-          Math.cos(t * 0.4) * (height / 2.5) +
+          stageSize.height / 2 +
+          Math.cos(t * 0.4) * (stageSize.height / 2.5) +
           Math.cos(t * 2.1) * 30;
         node.x(x);
         node.y(y);
@@ -139,6 +150,27 @@ const App = () => {
     }, fireflyRef.current);
     animation.start();
     return () => animation.stop();
+  }, []);
+
+  React.useEffect(() => {
+    const updateSize = () => {
+      const padding = 10;
+      const availableWidth = window.innerWidth - padding;
+      const availableHeight = window.innerHeight - padding;
+      const scale = Math.min (
+        availableWidth / START_WIDTH,
+        availableHeight / START_HEIGHT
+      );
+      setStageSize({
+        width: START_WIDTH * scale,
+        height: START_HEIGHT * scale,
+        scale,
+      });
+    };
+
+   updateSize();
+   window.addEventListener("resize", updateSize);
+   return () => window.removeEventListener("resize", updateSize); 
   }, []);
 
   const handleMouseDown = async (e) => {
@@ -228,9 +260,12 @@ const App = () => {
         
         </select>
 
+        <div className="stage-container">
       <Stage
-        width={width}
-        height={height}
+        width={stageSize.width}
+        height={stageSize.height}
+        scaleX={stageSize.scale}
+        scaleY={stageSize.scale}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
@@ -240,7 +275,7 @@ const App = () => {
             text={selectedMessages[msgNumber]}
             x={0}
             y={300}
-            width={width}
+            width={stageSize.width}
             align="center"
             fontSize={60}
             fontFamily="Mansalva"
@@ -250,7 +285,7 @@ const App = () => {
         </Layer>
 
         <Layer className="containerScribble" ref={coatLayer}>
-          <Rect x={0} y={0} width={width} height={height} fill="black" />
+          <Rect x={0} y={0} width={stageSize.width} height={stageSize.height} fill="black" />
           {lines.map((points, i) => (
             <Line
               key={i}
@@ -304,6 +339,7 @@ const App = () => {
       </Stage>
 
       {revealed && <button className="next" onClick={nextMessage}>→</button>}
+    </div>
     </>
   );
 };

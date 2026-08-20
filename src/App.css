@@ -9,6 +9,9 @@
     cursor: url("eraser-cursor.png") 16 43, auto;
 }
 
+
+
+
 .next {
   position: fixed;
   right: 40px;
@@ -61,4 +64,12 @@ option {
   color: black;
   border-radius: 5%;
   background-color: white;
+}
+
+.stage-wrapper {
+  width: 80vw;
+  height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
