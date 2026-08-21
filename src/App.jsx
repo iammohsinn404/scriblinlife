@@ -3,6 +3,7 @@ import "./App.css";
 import { Stage, Layer, Line, Text, Rect, Circle } from "react-konva";
 import Konva from "konva";
 import * as Tone from "tone";
+import cursor from "/cursor.png"
 
 const ogScriblinLifeMessages = [
   "you don't have time",
@@ -73,8 +74,7 @@ const App = () => {
   const fireflyRef = React.useRef(null);
   const fireflyNodes = React.useRef([]);
 
-
-
+  const cursorRef = React.useRef(null);
 
   const checkShown = () => {
     const layer = coatLayer.current;
@@ -175,6 +175,18 @@ const App = () => {
    return () => window.removeEventListener("resize", updateSize); 
   }, []);
 
+
+  React.useEffect(() => {
+    const cursorEl = cursorRef.current;
+    const moveCursor = (e) => {
+      if (cursorEl) {
+        cursorEl.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      }
+    };
+    window.addEventListener("mousemove", moveCursor);
+    return () => window.removeEventListener("mousemove", moveCursor)
+  }, []);
+
   const handleMouseDown = async (e) => {
     if (!soundStarted.current) {
       await Tone.start();
@@ -230,18 +242,28 @@ const App = () => {
     setMsgNumber((i) => (i + 1) % selectedMessages.length);
   };
 
-  if (!started){
-    return(
+
+  return (
+    <>
+
+      <img 
+        ref={cursorRef}
+        src={cursor}
+        className="eraserCursor"
+        alt=""
+        />
+
+       
+{!started ? (
       <div className="splash-screen" >
         <h1>scriblinlife</h1>
         <p>scribble, keep scribblin.</p>
         <button className="start" onClick={() => setStarted(true)}>start game</button>
         <div className="instructions"></div>
       </div>
-    )
-  }
-  return (
-    <>
+    ) : (
+ 
+      <>
       <audio ref={musicRef} src="/Relent.mp3" loop />
 
       <select 
@@ -342,6 +364,8 @@ const App = () => {
 
       {revealed && <button className="next" onClick={nextMessage}>→</button>}
     </div>
+    </>
+    )}
     </>
   );
 };

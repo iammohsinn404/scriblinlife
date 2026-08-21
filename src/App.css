@@ -4,13 +4,15 @@
   font-family: "Mansalva", cursive;
   margin: 0;
   padding: 0;
-  background-color: black;
   color: white;
-    cursor: url("public/eraser-cursor.png") 16 43, auto;
+    cursor: none;
 }
 
 
 
+body{
+  background-color: black;
+}
 
 .next {
   position: fixed;
@@ -49,6 +51,7 @@
     padding: 10px 15px 10px 15px; 
     font-size: 20px;
     border-radius: 16px;
+    background-color: black;
 }
 
 select {
@@ -72,4 +75,17 @@ option {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.eraserCursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 12312;
+  will-change: transform; 
+  transform: translate(-16px, -43px);
+
 }
