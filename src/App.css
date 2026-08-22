@@ -41,7 +41,7 @@ body{
     margin: -5px;
 }
 
-.splash-screen p {
+.subtitle {
     font-size: 25px;
     color: whitesmoke;
     margin-bottom: 50px;
@@ -89,4 +89,10 @@ option {
   will-change: transform; 
   transform: translate(-16px, -43px);
 
+}
+
+.extraMessage {
+  font-size: 16px;
+  color: rgb(192, 181, 181);
+  margin: 20px;
 }

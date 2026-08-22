@@ -257,9 +257,10 @@ const App = () => {
 {!started ? (
       <div className="splash-screen" >
         <h1>scriblinlife</h1>
-        <p>scribble, keep scribblin.</p>
+        <p className="subtitle">scribble, keep scribblin.</p>
         <button className="start" onClick={() => setStarted(true)}>start game</button>
         <div className="instructions"></div>
+        <p className="extraMessage">if you want to add your own messages, check out the repo and readme, it's actually simple</p>
       </div>
     ) : (
  
